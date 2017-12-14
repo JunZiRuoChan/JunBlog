@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>博客后台</title>
+    <link rel="stylesheet" type="text/css" href="Public/{$smarty.const.PLAT}/css/app.css" />
+    <script type="text/javascript" src="Public/{$smarty.const.PLAT}/js/app.js"></script>
+    <script type="text/javascript" src="Vendor/ckeditor/ckeditor.js"></script>
+</head>
+<body>
+<div class="wrapper">
+    <!-- START HEADER -->
+    {include file="App/Back/View/Public/header.html"}
+    <!-- END HEADER -->
+
+    <!-- START MAIN -->
+    <div id="main">
+        <!-- START SIDEBAR -->
+        {include file="App/Back/View/Public/sidebar.html"}
+        <!-- END SIDEBAR -->
+
+        <!-- START PAGE -->
+        <div id="page">
+            <!-- start page title -->
+            <div class="page-title">
+                <div class="in">
+                    <div class="titlebar">	<h2>博文管理</h2>	<p>编辑博文</p></div>
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <!-- START CONTENT -->
+            <div class="content">
+                <div class="simplebox grid740" style="z-index: 720;">
+                    <div class="titleh" style="z-index: 710;">
+                        <h3>编辑博文</h3>
+                    </div>
+                    <div class="body" style="z-index: 690;">
+
+                        <form id="form2" name="form2" method="post" action="index.php">
+						<input type="hidden" name="p" value="back"/>
+						<input type="hidden" name="m" value="article"/>
+						<input type="hidden" name="a" value="update"/>
+						<input type="hidden" name="id" value="{$edit_art.id}"/>
+                            <div class="st-form-line" style="z-index: 680;">
+                                <span class="st-labeltext">标题</span>
+                                <input name="title" type="text" class="st-forminput" style="width:510px" value="{$edit_art.a_name}">
+                                <div class="clear" style="z-index: 670;"></div>
+                            </div>
+                            <div class="st-form-line">
+                                <span class="st-labeltext">发布日期</span>
+                                <!-- start default date picker -->
+                                <script type="text/javascript">
+                                    $(function() {
+                                        $("#datepicker").datepicker();
+                                    });
+                                </script>
+                                <input type="text" id="datepicker" class="datepicker-input" style="width:180px;" name="publishtime" value="{$edit_art.a_publishtime|date_format:'%Y/%m/%d'}">
+                                <!-- end default date picker -->
+                                <div class="clear" style="z-index: 510;"></div>
+                            </div>
+                            <div class="st-form-line" style="z-index: 640;">
+                                <span class="st-labeltext">分类</span>
+                                <select class="uniform" name="category">
+									{foreach from=$categories item=cat}
+                                    <option value="{$cat.id}" {if $edit_art.c_id == $cat.id}selected="selected"{/if}>{'--'|str_repeat:$cat.level}{$cat.c_name}</option>
+									{/foreach}
+                                </select>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="st-form-line">
+                                <span class="st-labeltext">状态</span>
+                                <select class="uniform" name="status">
+                                    <option value="1" {if $edit_art.a_status == '草稿'}selected="selected"{/if}>草稿</option>
+                                    <option value="2" {if $edit_art.a_status == '公开'}selected="selected"{/if}>公开</option>
+                                    <option value="3" {if $edit_art.a_status == '隐藏'}selected="selected"{/if}>隐藏</option>
+                                </select>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="st-form-line" style="z-index: 620;">
+                                <span class="st-labeltext">置顶</span>
+                                <label class="margin-right10">
+                                    <div class="radio">
+                                        <span><input type="radio" name="toped" class="uniform" value="1"></span>
+                                    </div> 置顶
+                                </label>
+                                <label class="margin-right10">
+                                    <div class="radio">
+                                        <span><input type="radio" name="toped" class="uniform" value="2" checked></span>
+                                    </div> 不置顶
+                                </label>
+
+                                <div class="clear" style="z-index: 610;"></div>
+                            </div>
+
+                            <!-- START jWYSIWYG TEXT EDITOR -->
+                            <div class="simplebox grid740">
+                                <div class="titleh">
+                                    <h3>内容</h3>
+                                </div>
+                                <div class="body">
+                                    <textarea class="st-forminput" rows="5" cols="47" style="width:96.5%;" name="content">{$edit_art.a_content|htmlspecialchars_decode}</textarea>
+									<script>CKEDITOR.replace('content');</script>
+                                </div>
+
+                            </div>
+                            <!-- END jWYSIWYG TEXT EDITOR -->
+
+                            <div class="button-box" style="z-index: 460;">
+                                <input type="submit" name="button" id="button" value="提交" class="st-button">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!-- END CONTENT -->
+        </div>
+        <!-- END PAGE -->
+        <div class="clear"></div>
+    </div>
+    <!-- END MAIN -->
+
+    <!-- START FOOTER -->
+    {include file="App/Back/View/Public/footer.html"}
+    <!-- END FOOTER -->
+</div>
+</body>
+</html>
